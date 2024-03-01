@@ -1,0 +1,35 @@
+[build-system]
+requires = [
+    "setuptools >= 40.9.0"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-dir]
+"CBOSS.models" = "models"
+"CBOSS.optimizers" = "optimizers"
+"CBOSS.bayesian_models" = "bayesian_models"
+"CBOSS.utils" = "utils"
+
+[project]
+name = "CBOSS"
+version = "2.0.0"
+authors = [
+    {name = "Lucas Rath", email = "lucasrm25@gmail.com"},
+]
+description = "Combinatorial Bayesian Optimization for Structure Selection"
+keywords = ["Bayesian Optimization", "Constraints", "Failures", "Model Structure Selection"]
+license = {file = "LICENSE"}
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3"
+]
+requires-python = ">=3.10,<3.11"
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[project.optional-dependencies]
+exptracking = ["aim==3.16.0"]
+notebook = ["jyupterlab"]
+test = ["pytest"]

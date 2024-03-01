@@ -1,0 +1,97 @@
+Metadata-Version: 2.1
+Name: CBOSS
+Version: 2.0.0
+Summary: Combinatorial Bayesian Optimization for Structure Selection
+Author-email: Lucas Rath <lucasrm25@gmail.com>
+License: MIT License
+        
+        Copyright (c) Meta Platforms, Inc. and affiliates.
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Keywords: Bayesian Optimization,Constraints,Failures,Model Structure Selection
+Classifier: Programming Language :: Python :: 3
+Requires-Python: <3.11,>=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: joblib==1.2.0
+Requires-Dist: matplotlib==3.7.0
+Requires-Dist: networkx==3.0
+Requires-Dist: numpy>=1.23
+Requires-Dist: scipy==1.10.1
+Requires-Dist: scikit_learn==1.2.1
+Requires-Dist: pandas==1.5.3
+Requires-Dist: plotly==5.13.0
+Requires-Dist: torch==1.13.1
+Requires-Dist: pyro_ppl==1.8.4
+Requires-Dist: PyYAML==6.0
+Requires-Dist: seaborn==0.12.2
+Requires-Dist: tqdm==4.64.1
+Requires-Dist: pynumdiff==0.1.2
+Requires-Dist: gpytorch==1.9.1
+Requires-Dist: aim>=3.16.0
+Provides-Extra: exptracking
+Requires-Dist: aim==3.16.0; extra == "exptracking"
+Provides-Extra: notebook
+Requires-Dist: jyupterlab; extra == "notebook"
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+
+# CBOSS - Combinatorial Bayesian Optimization for Structure Selection
+
+As part of the submission at the Transactions in Machine Learning Research (TMLR) journal:
+
+[Discovering Model Structure of Dynamical Systems with Combinatorial Bayesian Optimization](https://openreview.net/forum?id=2iOOvQmJBK)
+
+This repository contains the code for the CBOSS optimizer and the experiments presented in the paper.
+The main optimizer function can be found at [optimizers/CBOSS.py](optimizers/CBOSS.py).
+
+
+## Optimization Problem
+
+**CBOSS** can be used to for the following problem setup:
+$$
+\begin{align}
+    \boldsymbol x^* = \arg\min_{\boldsymbol x\in\mathcal X} & \quad f (\boldsymbol x) 
+    \\
+    s.t. & \quad g_j(\boldsymbol x) \leq 0 \quad  \forall j \in \{1, \dots, M\} \\
+         & \quad h(\boldsymbol x) = 1
+\end{align}
+$$
+where 
+- $x$ is a vector of categorical decision variables denoted as $\boldsymbol x \in \mathcal X$, defined over the combinatorial domain $\mathcal X = \mathcal X_1 \times \mathcal X_2 \times\dots \times \mathcal X_d$ with $d$ categorical decision variables with respective cardinalities $k_1, \dots, k_d$.
+- $f: \mathcal X \to \mathbb R$ is the objective function.
+- $g_j: \mathcal X \to \mathbb R$ are the inequality constraints.
+- $h: \mathcal X \to \{0,1\}$ are the binary equality constraints.
+
+
+## Acquisition function
+
+It implements surrogate models designed for combinatorial spaces and the acquisition function `FRCHEI` that can handle inequality and crash constraints.
+
+![notebooks/images/FRCHEI.png](notebooks/images/FRCHEI.png)
+
+*(generated with `notebooks/FRCHEI.ipynb`)
+
+
+Note that although we consider only categorical variables, this optimizer can be adapted for continuous or mixed inputs spaces.
+
+## License
+
+This project is licensed under the terms of the MIT license. See [LICENSE](LICENSE) for more details.
