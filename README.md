@@ -1,6 +1,6 @@
 # CBOSS - Combinatorial Bayesian Optimization for Structure Selection
 
-As part of the submission at the Transactions in Machine Learning Research (TMLR) journal:
+This repository is part of the submission at the Transactions in Machine Learning Research (TMLR) journal:
 
 [Discovering Model Structure of Dynamical Systems with Combinatorial Bayesian Optimization](https://openreview.net/forum?id=2iOOvQmJBK)
 
@@ -10,7 +10,7 @@ The main optimizer function can be found at [optimizers/CBOSS.py](optimizers/CBO
 
 ## Optimization Problem
 
-**CBOSS** can be used to solve the following optimization problem:
+**CBOSS** is a **Bayesian Optimization** method used to solve **combinatorial optimization problems subject to inequality and crash constraints**:
 
 $$
 \begin{align}
@@ -65,7 +65,30 @@ make build
 make install
 ```
 
+## Unit Tests
+
+Python unit tests available at [test/](test) can be run with:
+```sh
+make test
+```
+
 
 ## License
 
 This project is licensed under the terms of the MIT license. See [LICENSE](LICENSE) for more details.
+
+## Citation
+
+If you use this code in your research, please cite the following paper:
+
+```bibtex
+@article{
+    anonymous2023discovering,
+    title={Discovering Model Structure of Dynamical Systems with Combinatorial Bayesian Optimization},
+    author={Anonymous},
+    journal={Submitted to Transactions on Machine Learning Research},
+    year={2023},
+    url={https://openreview.net/forum?id=2iOOvQmJBK},
+    note={Under review}
+}
+```
