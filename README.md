@@ -10,7 +10,7 @@ The main optimizer function can be found at [optimizers/CBOSS.py](optimizers/CBO
 
 ## Optimization Problem
 
-**CBOSS** can be used to for the following problem setup:
+**CBOSS** can be used to solve the following optimization problem:
 
 $$
 \begin{align}
@@ -25,7 +25,24 @@ where
 - $x$ is a vector of categorical decision variables denoted as $\boldsymbol x \in \mathcal X$, defined over the combinatorial domain $\mathcal X = \mathcal X_1 \times \mathcal X_2 \times\dots \times \mathcal X_d$ with $d$ categorical decision variables with respective cardinalities $k_1, \dots, k_d$.
 - $f: \mathcal X \to \mathbb R$ is the objective function.
 - $g_j: \mathcal X \to \mathbb R$ are the inequality constraints.
-- $h: \mathcal X \to \{0,1\}$ are the binary equality constraints.
+- $h: \mathcal X \to \{0,1\}$ are the binary equality constraints indicating evaluation "crashes".
+
+
+The functions $f$, $\boldsymbol g$, and $h$ are all expensive-to-evaluate black-box functions and can only be obtained simultaneously. The functions $f$ and $\boldsymbol g$ are noisy and can only be assessed when the experiment is successful, i.e.
+
+$$
+\begin{align}
+    (y, \boldsymbol c, l) = \left\{
+    \begin{array}{llll}
+            (f(\boldsymbol x) + \epsilon_y, & \boldsymbol g(\boldsymbol x) + \boldsymbol\epsilon_c, & 1) & \text{if } \boldsymbol x \text{ is evaluation success} \\
+            (\varnothing, & \varnothing & 0) & \text{if } \boldsymbol x \text{ is evaluation failure}
+    \end{array}
+    \right.
+\end{align}
+$$
+
+where the noise $\epsilon_y \sim \mathcal{N}(0, \sigma_y^2)$ and $\boldsymbol \epsilon_c \sim \mathcal{N}(0, \text{diag}(\boldsymbol\sigma_{c}^2))$
+are i.i.d. and normally distributed.
 
 
 ## Acquisition function
