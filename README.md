@@ -39,6 +39,16 @@ It implements surrogate models designed for combinatorial spaces and the acquisi
 
 Note that although we consider only categorical variables, this optimizer can be adapted for continuous or mixed inputs spaces.
 
+## Installation
+
+To install the package, activate your python environment and run:
+
+```sh
+make build
+make install
+```
+
+
 ## License
 
 This project is licensed under the terms of the MIT license. See [LICENSE](LICENSE) for more details.
