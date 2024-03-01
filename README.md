@@ -11,6 +11,7 @@ The main optimizer function can be found at [optimizers/CBOSS.py](optimizers/CBO
 ## Optimization Problem
 
 **CBOSS** can be used to for the following problem setup:
+
 $$
 \begin{align}
     \boldsymbol x^* = \arg\min_{\boldsymbol x\in\mathcal X} & \quad f (\boldsymbol x) 
@@ -19,6 +20,7 @@ $$
          & \quad h(\boldsymbol x) = 1
 \end{align}
 $$
+
 where 
 - $x$ is a vector of categorical decision variables denoted as $\boldsymbol x \in \mathcal X$, defined over the combinatorial domain $\mathcal X = \mathcal X_1 \times \mathcal X_2 \times\dots \times \mathcal X_d$ with $d$ categorical decision variables with respective cardinalities $k_1, \dots, k_d$.
 - $f: \mathcal X \to \mathbb R$ is the objective function.
