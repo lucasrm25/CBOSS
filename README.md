@@ -56,6 +56,11 @@ It implements surrogate models designed for combinatorial spaces and the acquisi
 
 Note that although we consider only categorical variables, this optimizer can be adapted for continuous or mixed inputs spaces.
 
+## Benchmark Problems
+
+See [github.com/lucasrm25/Model-Structure-Selection-CBOSS](https://github.com/lucasrm25/Model-Structure-Selection-CBOSS) for the specification of the benchmark problems.
+
+
 ## Installation
 
 To install the package, activate your python environment and run:
