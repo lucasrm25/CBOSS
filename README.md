@@ -53,8 +53,8 @@ It implements surrogate models designed for combinatorial spaces and the acquisi
 
 *(generated with `notebooks/FRCHEI.ipynb`)
 
+> Note: for illustration purposes we show the acquisition function for an one-dimensional continuous variable. CBOSS employs FRCHEI to high-dimensional binary/categorical spaces.
 
-Note that although we consider only categorical variables, this optimizer can be adapted for continuous or mixed inputs spaces.
 
 ## Benchmark Problems
 
