@@ -12,6 +12,9 @@ build:
 install:
 	python3 -m pip install --upgrade --no-index --no-build-isolation dist/CBOSS*.whl
 
+install_local:
+	python install -e .
+
 test:
 	export PYTHONPATH=$(CURDIR)/..; python -m unittest discover . -v
 

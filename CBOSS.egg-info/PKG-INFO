@@ -1,11 +1,9 @@
 Metadata-Version: 2.1
 Name: CBOSS
-Version: 2.0.0
+Version: 2.1.0
 Summary: Combinatorial Bayesian Optimization for Structure Selection
 Author-email: Lucas Rath <lucasrm25@gmail.com>
 License: MIT License
-        
-        Copyright (c) Meta Platforms, Inc. and affiliates.
         
         Permission is hereby granted, free of charge, to any person obtaining a copy
         of this software and associated documentation files (the "Software"), to deal
@@ -30,22 +28,20 @@ Classifier: Programming Language :: Python :: 3
 Requires-Python: <3.11,>=3.10
 Description-Content-Type: text/markdown
 License-File: LICENSE
-Requires-Dist: joblib==1.2.0
-Requires-Dist: matplotlib==3.7.0
-Requires-Dist: networkx==3.0
-Requires-Dist: numpy>=1.23
-Requires-Dist: scipy==1.10.1
-Requires-Dist: scikit_learn==1.2.1
-Requires-Dist: pandas==1.5.3
-Requires-Dist: plotly==5.13.0
-Requires-Dist: torch==1.13.1
-Requires-Dist: pyro_ppl==1.8.4
-Requires-Dist: PyYAML==6.0
-Requires-Dist: seaborn==0.12.2
-Requires-Dist: tqdm==4.64.1
-Requires-Dist: pynumdiff==0.1.2
-Requires-Dist: gpytorch==1.9.1
-Requires-Dist: aim>=3.16.0
+Requires-Dist: joblib~=1.2.0
+Requires-Dist: matplotlib~=3.7.0
+Requires-Dist: numpy~=1.23
+Requires-Dist: scipy~=1.10.1
+Requires-Dist: scikit_learn~=1.2.1
+Requires-Dist: pandas~=1.5.3
+Requires-Dist: plotly~=5.13.0
+Requires-Dist: torch~=1.13.1
+Requires-Dist: pyro_ppl~=1.8.4
+Requires-Dist: PyYAML~=6.0
+Requires-Dist: seaborn~=0.12.2
+Requires-Dist: tqdm~=4.64.1
+Requires-Dist: pynumdiff~=0.1.2
+Requires-Dist: gpytorch~=1.11
 Provides-Extra: exptracking
 Requires-Dist: aim==3.16.0; extra == "exptracking"
 Provides-Extra: notebook
@@ -55,7 +51,7 @@ Requires-Dist: pytest; extra == "test"
 
 # CBOSS - Combinatorial Bayesian Optimization for Structure Selection
 
-As part of the submission at the Transactions in Machine Learning Research (TMLR) journal:
+This repository is part of the submission at the Transactions in Machine Learning Research (TMLR) journal:
 
 [Discovering Model Structure of Dynamical Systems with Combinatorial Bayesian Optimization](https://openreview.net/forum?id=2iOOvQmJBK)
 
@@ -65,7 +61,8 @@ The main optimizer function can be found at [optimizers/CBOSS.py](optimizers/CBO
 
 ## Optimization Problem
 
-**CBOSS** can be used to for the following problem setup:
+**CBOSS** is a **Bayesian Optimization** method used to solve **combinatorial optimization problems subject to inequality and crash constraints**:
+
 $$
 \begin{align}
     \boldsymbol x^* = \arg\min_{\boldsymbol x\in\mathcal X} & \quad f (\boldsymbol x) 
@@ -74,11 +71,29 @@ $$
          & \quad h(\boldsymbol x) = 1
 \end{align}
 $$
+
 where 
 - $x$ is a vector of categorical decision variables denoted as $\boldsymbol x \in \mathcal X$, defined over the combinatorial domain $\mathcal X = \mathcal X_1 \times \mathcal X_2 \times\dots \times \mathcal X_d$ with $d$ categorical decision variables with respective cardinalities $k_1, \dots, k_d$.
 - $f: \mathcal X \to \mathbb R$ is the objective function.
 - $g_j: \mathcal X \to \mathbb R$ are the inequality constraints.
-- $h: \mathcal X \to \{0,1\}$ are the binary equality constraints.
+- $h: \mathcal X \to \{0,1\}$ are the binary equality constraints indicating evaluation "crashes".
+
+
+The functions $f$, $\boldsymbol g$, and $h$ are all expensive-to-evaluate black-box functions and can only be obtained simultaneously. The functions $f$ and $\boldsymbol g$ are noisy and can only be assessed when the experiment is successful, i.e.
+
+$$
+\begin{align}
+    (y, \boldsymbol c, l) = \left\{
+    \begin{array}{llll}
+            (f(\boldsymbol x) + \epsilon_y, & \boldsymbol g(\boldsymbol x) + \boldsymbol\epsilon_c, & 1) & \text{if } \boldsymbol x \text{ is evaluation success} \\
+            (\varnothing, & \varnothing & 0) & \text{if } \boldsymbol x \text{ is evaluation failure}
+    \end{array}
+    \right.
+\end{align}
+$$
+
+where the noise $\epsilon_y \sim \mathcal{N}(0, \sigma_y^2)$ and $\boldsymbol \epsilon_c \sim \mathcal{N}(0, \text{diag}(\boldsymbol\sigma_{c}^2))$
+are i.i.d. and normally distributed.
 
 
 ## Acquisition function
@@ -89,9 +104,48 @@ It implements surrogate models designed for combinatorial spaces and the acquisi
 
 *(generated with `notebooks/FRCHEI.ipynb`)
 
+> Note: for illustration purposes we show the acquisition function for an one-dimensional continuous variable. CBOSS employs FRCHEI to high-dimensional binary/categorical spaces.
 
-Note that although we consider only categorical variables, this optimizer can be adapted for continuous or mixed inputs spaces.
+
+## Benchmark Problems
+
+See [github.com/lucasrm25/Model-Structure-Selection-CBOSS](https://github.com/lucasrm25/Model-Structure-Selection-CBOSS) for the specification of the benchmark problems.
+
+
+## Installation
+
+To install the package, activate your python environment and run:
+
+```sh
+make build
+make install
+```
+
+## Unit Tests
+
+Python unit tests available at [test/](test) can be run with:
+```sh
+make test
+```
+
 
 ## License
 
 This project is licensed under the terms of the MIT license. See [LICENSE](LICENSE) for more details.
+
+## Citation
+
+If you use this code in your research, please cite the following paper:
+
+```bibtex
+@article{
+  rath2024discovering,
+  title={Discovering Model Structure of Dynamical Systems with Combinatorial Bayesian Optimization},
+  author={Lucas Rath and Alexander von Rohr and Andreas Schultze and Sebastian Trimpe and Burkhard Corves},
+  journal={Transactions on Machine Learning Research},
+  issn={2835-8856},
+  year={2024},
+  url={https://openreview.net/forum?id=2iOOvQmJBK},
+  note={}
+}
+```
