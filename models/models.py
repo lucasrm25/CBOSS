@@ -9,14 +9,7 @@ from scipy.integrate import solve_ivp
 import warnings
 import numpy as np
 import pandas as pd
-import json
 from scipy import stats
-from scipy.signal import correlation_lags, correlate
-with warnings.catch_warnings():
-	import pynumdiff
-import yaml
-from tqdm import tqdm
-import subprocess
 import matplotlib.pyplot as plt 
 from matplotlib import gridspec
 from sklearn.preprocessing import PolynomialFeatures
@@ -393,6 +386,8 @@ class Sparse_Identification_Nonlinear_Dynamical_Systems(IModel):
 		Args:
 			- k: max polynomial order of each dimension of the differential equation 
 		'''
+		import pynumdiff
+
 		# self.k = k
 		# self.features = PolynomialFeatures(degree=self.k, interaction_only=False, include_bias=True, order='C')
 		# self.features.fit_transform(np.ones((1,self.n)))	# fake inputs to init boring sklearn
